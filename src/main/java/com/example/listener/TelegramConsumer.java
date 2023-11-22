@@ -4,6 +4,7 @@ import com.example.model.dto.ScheduleDto;
 import com.example.model.dto.TransactionHistoryDto;
 import com.example.repository.TelegramUserRepository;
 import com.example.service.TelegramBotUserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Slf4j
 public class TelegramConsumer {
 
-    private static final String TELEGRAM_TOPIC = "telegram";
+    private static final String TELEGRAM_TOPIC = "telegram-notification";
     private static final String TELEGRAM_TOPIC_SCHEDULE = "telegram-schedule";
 
     private final TelegramUserRepository telegramUserRepository;
@@ -36,18 +37,32 @@ public class TelegramConsumer {
             topics = TELEGRAM_TOPIC,
             groupId = "notification-consumer"
     )
-    void listener(ConsumerRecord<String, TransactionHistoryDto> telegram) {
+    void listener(ConsumerRecord<String, String> telegram) {
         log.info("Started consuming message on topic: {}, offset {}, message {}", telegram.topic(),
                 telegram.offset(), telegram.value());
 
+        String trimmedString = telegram.value().replaceAll("^\"|\"$", "");
+        String cleanedJson = trimmedString.replaceAll("\\\\", "");
+
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        TransactionHistoryDto transactionHistoryDto = new TransactionHistoryDto();
         try {
-            UUID userId = telegram.value().getCustomerId();
+            transactionHistoryDto = objectMapper.readValue(cleanedJson, TransactionHistoryDto.class);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        try {
+            UUID userId = transactionHistoryDto.getCustomerId();
 
 //            Check if the userId exists in your telegram_users table and get chatId
             Long chatId = telegramUserRepository.getChatIdByUserId(userId);
             System.out.println("chatId: " + chatId);
 
-            telegramBotUserService.sendTextMessage(chatId, telegram.value());
+            telegramBotUserService.sendTextMessage(chatId, transactionHistoryDto);
         } catch (Exception e) {
             log.error("Exception while processing Kafka record", e);
         }
