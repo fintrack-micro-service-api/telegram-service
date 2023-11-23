@@ -15,7 +15,7 @@ public class TelegramUserController {
     private final TelegramBotUserService telegramBotUserService;
 
 
-    @GetMapping("/subscribeddddddddddddddddseyha")
+    @GetMapping("/subscribed")
     public Boolean subscribe(@RequestParam Long chat_id, @RequestParam String token){
         return telegramBotUserService.isSubscribed(chat_id, token);
     }
