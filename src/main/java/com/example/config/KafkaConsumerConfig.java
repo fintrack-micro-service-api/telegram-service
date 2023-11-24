@@ -15,6 +15,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.listener.CommonErrorHandler;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.DefaultErrorHandler;
+import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.util.backoff.FixedBackOff;
 
@@ -41,25 +42,50 @@ public class KafkaConsumerConfig {
     }
 
 
+//    @Bean
+//    public ConsumerFactory<String, TransactionHistoryDto> consumerFactory() {
+//        Map<String, Object> props = new HashMap<>();
+//        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+//        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
+//
+//
+////        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
+////        props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, 10);
+////        props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, 60000);
+//        props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+//        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+//        // Specify the value deserializer with the object type
+//        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+//        // Specify the value class for the JsonDeserializer
+//        props.put(JsonDeserializer.TRUSTED_PACKAGES, "*"); // You can restrict trusted packages for security
+////        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, Telegram.class);
+//
+//        return new DefaultKafkaConsumerFactory<>(props);
+//    }
+
+
     @Bean
     public ConsumerFactory<String, TransactionHistoryDto> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
-
-//        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
-//        props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, 10);
-//        props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, 60000);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        // Specify the value deserializer with the object type
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-        // Specify the value class for the JsonDeserializer
-        props.put(JsonDeserializer.TRUSTED_PACKAGES, "*"); // You can restrict trusted packages for security
-//        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, Telegram.class);
-
+        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+        props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
         return new DefaultKafkaConsumerFactory<>(props);
     }
+//    @Bean
+//    public ConsumerFactory<Object, TransactionResponse> consumerFactory() {
+//        Map<String, Object> props = new HashMap<>();
+//        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+//        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
+//        props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+//        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+//        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+//        props.put(JsonDeserializer.TRUSTED_PACKAGES, "*"); // You can restrict trusted packages for security
+//        return new DefaultKafkaConsumerFactory<>(props);
+//    }
 
 //    @Bean
 //    KafkaListenerContainerFactory<?> kafkaListenerContainerFactory(ConsumerFactory<String, Notification> consumerFactory) {

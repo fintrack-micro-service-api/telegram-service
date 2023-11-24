@@ -22,7 +22,7 @@ spring:
 #    url: jdbc:postgresql://localhost:5432/demo_telegram_bot
 #    username: postgres
 #    password: krya
-    driver-class-name: org.postgresql.Driver
+#    driver-class-name: org.postgresql.Driver
   security:
     oauth2:
       resourceserver:
