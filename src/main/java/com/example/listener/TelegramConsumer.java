@@ -27,12 +27,6 @@ public class TelegramConsumer {
         this.telegramBotUserService = telegramBotUserService;
     }
 
-    //    @RetryableTopic(
-//            attempts = "3",
-//            topicSuffixingStrategy = TopicSuffixingStrategy.SUFFIX_WITH_INDEX_VALUE,
-//            backoff = @Backoff(delay = 1000, maxDelay = 5_000, random = true),
-//            dltTopicSuffix = "-dead-letter"
-//    )
     @KafkaListener(
             topics = TELEGRAM_TOPIC,
             groupId = "notification-consumer"
@@ -57,12 +51,16 @@ public class TelegramConsumer {
 
         try {
             UUID userId = transactionHistoryDto.getCustomerId();
-
 //            Check if the userId exists in your telegram_users table and get chatId
             Long chatId = telegramUserRepository.getChatIdByUserId(userId);
-            System.out.println("chatId: " + chatId);
+            if (chatId != null) {
+                System.out.println("chatId: " + chatId);
+                telegramBotUserService.sendTextMessage(chatId, transactionHistoryDto);
 
-            telegramBotUserService.sendTextMessage(chatId, transactionHistoryDto);
+            } else {
+                log.info("this userId doesn't have subscribe telegram or email notification types!");
+
+            }
         } catch (Exception e) {
             log.error("Exception while processing Kafka record", e);
         }
@@ -86,7 +84,7 @@ public class TelegramConsumer {
                 System.out.println("chatId: " + chatId);
                 telegramBotUserService.sendTextMessageSchedule(chatId, scheduleDto);
 
-            }else{
+            } else {
                 telegramUserRepository.findAll().forEach(user -> {
                     telegramBotUserService.sendTextMessageSchedule(user.getChatId(), scheduleDto);
                 });
