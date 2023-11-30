@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/telegram/users")
 @AllArgsConstructor
 @SecurityRequirement(name = "auth")
+@CrossOrigin
 public class TelegramUserController {
 
     private final TelegramBotUserService telegramBotUserService;
