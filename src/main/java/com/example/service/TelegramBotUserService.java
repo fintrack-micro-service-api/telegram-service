@@ -173,7 +173,7 @@ public class TelegramBotUserService extends TelegramLongPollingBot {
                 Boolean saveInDatabase = telegramUserRepository.save(new TelegramUser(chatId, UUID.fromString(userId), true)).getIsSubscribed();
 
 //                String saveTelegramNotificationByUserIdUrl = "http://client-event-service/api/v1/clients/save-telegram-notification-by-userId";
-                String saveTelegramNotificationByUserIdUrl = "http://localhost:8088/api/v1/clients/save-telegram-notification-by-userId";
+                String saveTelegramNotificationByUserIdUrl = "https://api.fintrack.dev/fintrack-client-event-service/api/v1/clients/save-telegram-notification-by-userId";
                 WebClient saveTelegramNotificationByUserId = webClientConfig.webClientBuilder().baseUrl(saveTelegramNotificationByUserIdUrl).build();
 
                 saveTelegramNotificationByUserId.post()
@@ -271,7 +271,7 @@ public class TelegramBotUserService extends TelegramLongPollingBot {
         UUID userId = telegramUser.getUserId();
 
 //        String getBankInfoByUserIdUrl = "http://client-event-service/api/v1/bank/bankInfo";
-        String getBankInfoByUserIdUrl = "http://localhost:8088/api/v1/bank/bankInfo";
+        String getBankInfoByUserIdUrl = "https://api.fintrack.dev/fintrack-client-event-service/api/v1/bank/bankInfo";
         WebClient getBankInfoByUserId = webClientConfig.webClientBuilder().baseUrl(getBankInfoByUserIdUrl).build();
 
         ParameterizedTypeReference<ApiResponse<BalanceDto>> typeReference = new ParameterizedTypeReference<ApiResponse<BalanceDto>>() {};
@@ -351,7 +351,7 @@ public class TelegramBotUserService extends TelegramLongPollingBot {
         System.out.println("userId: " + transactionHistoryDto.getCustomerId());
 
 //        String getCustomerByIdUrl = "http://client-event-service/api/v1/customers";
-        String getCustomerByIdUrl = "https://api-fintrack.kbaenak.tech/fintrack-client-event-service/api/v1/customers";
+        String getCustomerByIdUrl = "https://api.fintrack.dev/fintrack-client-event-service/api/v1/customers";
         WebClient getCustomerById = webClientConfig.webClientBuilder().baseUrl(getCustomerByIdUrl).build();
 
         ParameterizedTypeReference<ApiResponse<UserDtoClient>> typeReference = new ParameterizedTypeReference<ApiResponse<UserDtoClient>>() {};
@@ -371,7 +371,7 @@ public class TelegramBotUserService extends TelegramLongPollingBot {
     private String getLastName(TransactionHistoryDto transactionHistoryDto) {
         UUID userId = transactionHistoryDto.getCustomerId();
 //        String getCustomerByIdUrl = "http://client-event-service/api/v1/customers";
-        String getCustomerByIdUrl = "https://api-fintrack.kbaenak.tech/fintrack-client-event-service/api/v1/customers";
+        String getCustomerByIdUrl = "https://api.fintrack.dev/fintrack-client-event-service/api/v1/customers";
         WebClient getCustomerById = webClientConfig.webClientBuilder().baseUrl(getCustomerByIdUrl).build();
 
         ParameterizedTypeReference<ApiResponse<UserDtoClient>> typeReference = new ParameterizedTypeReference<ApiResponse<UserDtoClient>>() {};
