@@ -170,7 +170,7 @@ public class TelegramBotUserService extends TelegramLongPollingBot {
                             "Congratulations you have bind your account with KB Prasac Bank's account successfully " + emojiCongratulation + "\n" +
                             "Thank you for using our KB Prasac Bank Services " + emojiThanks
                     );
-                Boolean saveInDatabase = telegramUserRepository.save(new TelegramUser(chatId, UUID.fromString(userId), true)).getIsSubscribed();
+                Boolean saveInDatabase = telegramUserRepository.save(new TelegramUser(null, chatId, UUID.fromString(userId), true)).getIsSubscribed();
 
 //                String saveTelegramNotificationByUserIdUrl = "http://client-event-service/api/v1/clients/save-telegram-notification-by-userId";
                 String saveTelegramNotificationByUserIdUrl = "https://api.fintrack.dev/fintrack-client-event-service/api/v1/clients/save-telegram-notification-by-userId";
@@ -178,6 +178,7 @@ public class TelegramBotUserService extends TelegramLongPollingBot {
 
                 saveTelegramNotificationByUserId.post()
                         .uri("/{userId}", UUID.fromString(userId))
+                        .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
                         .retrieve()
                         .bodyToMono(BalanceDto.class)
                         .block();

@@ -22,6 +22,7 @@ public class TelegramUser {
     private UUID userId;
     private Boolean isSubscribed;
 
-    public TelegramUser(Long chatId, UUID uuid, boolean b) {
-    }
+
+
+
 }
