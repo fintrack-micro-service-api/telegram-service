@@ -88,26 +88,26 @@ public class TelegramBotUserService extends TelegramLongPollingBot {
 
 //           **************************************************************************
            //codes in this block for popup url just a string when users click on button bind
-           if (update.hasCallbackQuery()) {
-               CallbackQuery callbackQuery = update.getCallbackQuery();
-               String callbackData = callbackQuery.getData();
-
-               // Check if the callback data starts with "bind_"
-               if (callbackData.startsWith("bind_")) {
-                   Long chatId = Long.valueOf(callbackData.substring("bind_".length()));
-                   String url = "http://localhost:4200/home/?chatId=" + chatId;
-
-                   SendMessage sendMessage = new SendMessage();
-                   sendMessage.setChatId(chatId);
-                   sendMessage.setText("Bind's link: " + url);
-
-                   try {
-                       execute(sendMessage);
-                   } catch (TelegramApiException e) {
-                       e.printStackTrace();
-                   }
-               }
-           }
+//           if (update.hasCallbackQuery()) {
+//               CallbackQuery callbackQuery = update.getCallbackQuery();
+//               String callbackData = callbackQuery.getData();
+//
+//               // Check if the callback data starts with "bind_"
+//               if (callbackData.startsWith("bind_")) {
+//                   Long chatId = Long.valueOf(callbackData.substring("bind_".length()));
+//                   String url = "http://localhost:4200/home/?chatId=" + chatId;
+//
+//                   SendMessage sendMessage = new SendMessage();
+//                   sendMessage.setChatId(chatId);
+//                   sendMessage.setText("Bind's link: " + url);
+//
+//                   try {
+//                       execute(sendMessage);
+//                   } catch (TelegramApiException e) {
+//                       e.printStackTrace();
+//                   }
+//               }
+//           }
 //           **************************************************************************
 
 
@@ -198,10 +198,10 @@ public class TelegramBotUserService extends TelegramLongPollingBot {
         urlButton.setText("Go bind");
 
 //        can setUrl only https
-//        urlButton.setUrl("http://localhost:4200/home/?chatId=" + chatId);
+        urlButton.setUrl("https://web.seiha.lol/home/?chatId=" + chatId);
 
         //used for click bind button for popup angular url in localhost
-        urlButton.setCallbackData("bind_" + chatId);
+//        urlButton.setCallbackData("bind_" + chatId);
 
         keyboard.add(Collections.singletonList(urlButton));
         markup.setKeyboard(keyboard);
