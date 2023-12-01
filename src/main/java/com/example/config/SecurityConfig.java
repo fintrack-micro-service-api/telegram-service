@@ -23,6 +23,7 @@ public class SecurityConfig {
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers("/api/v1/telegram/users/**").permitAll()
                         .requestMatchers("/api/v1/telegram/bots/**").permitAll()
+                        .requestMatchers("/api/v1/telegram/histories/**").permitAll()
                         .anyRequest().authenticated()
 
         );
