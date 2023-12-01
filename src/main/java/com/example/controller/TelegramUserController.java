@@ -1,9 +1,12 @@
 package com.example.controller;
 
+import com.example.model.TelegramUser;
 import com.example.service.TelegramBotUserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -20,7 +23,5 @@ public class TelegramUserController {
     public Boolean subscribe(@RequestParam Long chat_id, @RequestParam String token){
         return telegramBotUserService.isSubscribed(chat_id, token);
     }
-
-
 
 }
