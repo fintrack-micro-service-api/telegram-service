@@ -58,15 +58,15 @@ kafka:
   group-id: notification-consumer
 
 
-springdoc:
-  api-docs:
-    path: /telegram-service/v3/api-docs #these urls will used to load the swagger ui of this service by the api gateway
-  swagger-ui:
-    oauth:
-      clientId: fintrack-app
-      clientSecret: yc3N92U7MgQtyfZ4le3h5ZeF0HTfuqgn
-      realm: Fintrack
-    path: /telegram-service/swagger-ui.html
+#springdoc:
+#  api-docs:
+#    path: /telegram-service/v3/api-docs #these urls will used to load the swagger ui of this service by the api gateway
+#  swagger-ui:
+#    oauth:
+#      clientId: fintrack-app
+#      clientSecret: yc3N92U7MgQtyfZ4le3h5ZeF0HTfuqgn
+#      realm: Fintrack
+#    path: /telegram-service/swagger-ui.html
 
 
 #eureka:
