@@ -25,7 +25,7 @@ public class TelegramHistoryController {
         Page<TelegramHistory> response = telegramHistoryService.getAllHistories(page, size);
 
         return ApiResponseOne.builder()
-                .message("get Email Reciver Successfully")
+                .message("get Email Receiver Successfully")
                 .payload(response.getContent())
                 .total(response.getTotalElements())
                 .status(200)
